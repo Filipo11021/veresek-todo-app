@@ -137,7 +137,6 @@ export default function CreateTask({
 					<button
 						className='py-4 px-6 bg-profile-icon-background flex items-center  rounded-xl cursor-pointer'
 						onClick={() => {
-							console.log(activeTab);
 							addTask(tasks, setTasks, {
 								id: tasks[tasks.length - 1].id + 1,
 								name: name,

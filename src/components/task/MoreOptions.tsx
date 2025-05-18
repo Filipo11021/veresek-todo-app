@@ -3,19 +3,24 @@ import editIcon from '@assets/edit.png';
 import deleteIcon from '@assets/delete.png';
 import { useState } from 'react';
 
-function editTask() {}
-function deleteTask() {
-    
-}
-
-function DrawDropdownOptions() {
+function DrawDropdownOptions({
+	deleteFunction,
+	editFunction,
+}: {
+	deleteFunction: Function;
+	editFunction: Function;
+}) {
 	const DropdownOptions = [
-		{ imgSrc: editIcon, label: 'Edytuj', action: editTask },
-		{ imgSrc: deleteIcon, label: 'Usuń', action: deleteTask },
+		{ imgSrc: editIcon, label: 'Edytuj', action: editFunction },
+		{ imgSrc: deleteIcon, label: 'Usuń', action: deleteFunction },
 	];
 	return DropdownOptions.map((option, index) => {
 		return (
-			<div key={index} onClick={option.action}>
+			<div
+				key={index}
+				onClick={() => {
+					option.action;
+				}}>
 				<img src={option.imgSrc} />
 				<p>{option.label}</p>
 			</div>
@@ -23,17 +28,32 @@ function DrawDropdownOptions() {
 	});
 }
 
-function DropdownMenu() {
+function DropdownMenu({
+	deleteFunction,
+	editFunction,
+}: {
+	deleteFunction: Function;
+	editFunction: Function;
+}) {
 	return (
 		<div className='relative -bottom-4'>
 			<div className='absolute bg-dropdown-background p-1'>
-				<DrawDropdownOptions />
+				<DrawDropdownOptions
+					deleteFunction={deleteFunction}
+					editFunction={editFunction}
+				/>
 			</div>
 		</div>
 	);
 }
 
-export default function MoreOptions() {
+export default function MoreOptions({
+	deleteFunction,
+	editFunction,
+}: {
+	deleteFunction: Function;
+	editFunction: Function;
+}) {
 	const [showMore, setShowMore] = useState(false);
 	return (
 		<div>
@@ -45,7 +65,12 @@ export default function MoreOptions() {
 					setShowMore(toggle => !toggle);
 				}}
 			/>
-			{showMore && <DropdownMenu />}
+			{showMore && (
+				<DropdownMenu
+					deleteFunction={deleteFunction}
+					editFunction={editFunction}
+				/>
+			)}
 		</div>
 	);
 }

@@ -13,6 +13,15 @@ export interface Task {
 	isDone: boolean;
 	importance: string;
 }
+export interface TaskWithSetTask {
+	id: number;
+	name: string;
+	desc: string;
+	category: string;
+	isDone: boolean;
+	importance: string;
+	setTasks: Function;
+}
 
 function WelcomeHeader() {
 	const [userName, setUserName] = useState('Veresek');
@@ -61,7 +70,7 @@ function DashboardText({
 		</div>
 	);
 }
-function TaskList({ tasks }: { tasks: Task[] }) {
+function TaskList({ tasks, setTasks }: { tasks: Task[]; setTasks: Function }) {
 	console.log(tasks);
 	return (
 		<div className='w-full'>
@@ -75,6 +84,7 @@ function TaskList({ tasks }: { tasks: Task[] }) {
 						isDone={task.isDone}
 						importance={task.importance}
 						key={index}
+						setTasks={setTasks}
 					/>
 				);
 			})}
@@ -105,7 +115,7 @@ export default function Dashboard() {
 		<main className='bg-main-section p-8'>
 			<WelcomeHeader />
 			<DashboardText tasks={tasks} setTasks={setTasks} />
-			<TaskList tasks={tasks} />
+			<TaskList tasks={tasks} setTasks={setTasks} />
 		</main>
 	);
 }

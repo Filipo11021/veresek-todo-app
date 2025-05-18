@@ -3,8 +3,7 @@ import midImportance from '@assets/midImportance.png';
 import lowImportance from '@assets/lowImportance.png';
 import todoTaskIcon from '@assets/todoTaskIcon.png';
 import doneTaskIcon from '@assets/doneTaskIcon.png';
-import { Task } from '../Dashboard';
-import { useState } from 'react';
+import { TaskWithSetTask } from '../Dashboard';
 import MoreOptions from './MoreOptions';
 function DropdownOption({ imgSrc, label }: { imgSrc: string; label: string }) {
 	return (
@@ -14,9 +13,11 @@ function DropdownOption({ imgSrc, label }: { imgSrc: string; label: string }) {
 		</div>
 	);
 }
-function deleteTask() {}
-function editTask() {}
-export default function CreateTask(task: Task) {
+export default function CreateTask(task: TaskWithSetTask) {
+	function deleteTask() {
+		alert('ggdfg');
+	}
+	function editTask() {}
 	return (
 		<div className='flex text-white w-full justify-between bg-task-background px-6 py-4.5 rounded-2xl mb-3 border-task-border border'>
 			<div>
@@ -46,7 +47,7 @@ export default function CreateTask(task: Task) {
 						<DropdownOption imgSrc={todoTaskIcon} label='Do zrobienia' />
 					)}
 				</div>
-				<MoreOptions />
+				<MoreOptions deleteFunction={deleteTask} editFunction={editTask} />
 			</div>
 		</div>
 	);
