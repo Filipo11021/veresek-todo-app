@@ -21,6 +21,7 @@ export interface TaskWithSetTask {
 	isDone: boolean;
 	importance: string;
 	setTasks: Function;
+	tasks: Task[];
 }
 
 function WelcomeHeader() {
@@ -71,7 +72,6 @@ function DashboardText({
 	);
 }
 function TaskList({ tasks, setTasks }: { tasks: Task[]; setTasks: Function }) {
-	console.log(tasks);
 	return (
 		<div className='w-full'>
 			{tasks.map((task, index) => {
@@ -85,6 +85,7 @@ function TaskList({ tasks, setTasks }: { tasks: Task[]; setTasks: Function }) {
 						importance={task.importance}
 						key={index}
 						setTasks={setTasks}
+						tasks={tasks}
 					/>
 				);
 			})}

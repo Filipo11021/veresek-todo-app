@@ -55,7 +55,7 @@ export default function CreateTask({
 	const [name, setName] = useState('Brak');
 	const [desc, setDesc] = useState('Brak opisu');
 	return (
-		<div className='absolute top-0 left-0 w-[100vw] h-[100vh] bg-black/50 backdrop-blur-sm'>
+		<div className='absolute top-0 left-0 w-[100vw] h-[100vh] bg-black/50 backdrop-blur-sm z-10'>
 			<div className='absolute top-[50%] left-[50%] bg-creating-task-background -translate-1/2 text-white py-8 px-6 rounded-2xl border-task-border border min-w-[450px]'>
 				<h2 className='text-2xl mb-10 font-semibold'>Dodaj nowe zadanie</h2>
 				<img

@@ -14,10 +14,6 @@ function DropdownOption({ imgSrc, label }: { imgSrc: string; label: string }) {
 	);
 }
 export default function CreateTask(task: TaskWithSetTask) {
-	function deleteTask() {
-		alert('ggdfg');
-	}
-	function editTask() {}
 	return (
 		<div className='flex text-white w-full justify-between bg-task-background px-6 py-4.5 rounded-2xl mb-3 border-task-border border'>
 			<div>
@@ -47,7 +43,11 @@ export default function CreateTask(task: TaskWithSetTask) {
 						<DropdownOption imgSrc={todoTaskIcon} label='Do zrobienia' />
 					)}
 				</div>
-				<MoreOptions deleteFunction={deleteTask} editFunction={editTask} />
+				<MoreOptions
+					taskId={task.id}
+					Tasks={task.tasks}
+					setTasks={task.setTasks}
+				/>
 			</div>
 		</div>
 	);

@@ -2,14 +2,28 @@ import moreBtn from '@assets/more.png';
 import editIcon from '@assets/edit.png';
 import deleteIcon from '@assets/delete.png';
 import { useState } from 'react';
+import { Task } from '../Dashboard';
 
 function DrawDropdownOptions({
-	deleteFunction,
-	editFunction,
+	taskId,
+	Tasks,
+	setTasks,
 }: {
-	deleteFunction: Function;
-	editFunction: Function;
+	taskId: number;
+	Tasks: Task[];
+	setTasks: Function;
 }) {
+	function editFunction() {}
+	function deleteFunction() {
+		let newTasks = [...Tasks];
+		for (let i = 0; i < newTasks.length; i++) {
+			if (newTasks[i].id === taskId) {
+				newTasks.splice(i, 1);
+				setTasks([...newTasks]);
+				console.log(Tasks);
+			}
+		}
+	}
 	const DropdownOptions = [
 		{ imgSrc: editIcon, label: 'Edytuj', action: editFunction },
 		{ imgSrc: deleteIcon, label: 'Usuń', action: deleteFunction },
@@ -19,7 +33,7 @@ function DrawDropdownOptions({
 			<div
 				key={index}
 				onClick={() => {
-					option.action;
+					option.action();
 				}}>
 				<img src={option.imgSrc} />
 				<p>{option.label}</p>
@@ -29,18 +43,21 @@ function DrawDropdownOptions({
 }
 
 function DropdownMenu({
-	deleteFunction,
-	editFunction,
+	taskId,
+	Tasks,
+	setTasks,
 }: {
-	deleteFunction: Function;
-	editFunction: Function;
+	taskId: number;
+	Tasks: Task[];
+	setTasks: Function;
 }) {
 	return (
-		<div className='relative -bottom-4'>
+		<div className='relative -bottom-4 z-1'>
 			<div className='absolute bg-dropdown-background p-1'>
 				<DrawDropdownOptions
-					deleteFunction={deleteFunction}
-					editFunction={editFunction}
+					taskId={taskId}
+					Tasks={Tasks}
+					setTasks={setTasks}
 				/>
 			</div>
 		</div>
@@ -48,11 +65,13 @@ function DropdownMenu({
 }
 
 export default function MoreOptions({
-	deleteFunction,
-	editFunction,
+	taskId,
+	Tasks,
+	setTasks,
 }: {
-	deleteFunction: Function;
-	editFunction: Function;
+	taskId: number;
+	Tasks: Task[];
+	setTasks: Function;
 }) {
 	const [showMore, setShowMore] = useState(false);
 	return (
@@ -66,10 +85,7 @@ export default function MoreOptions({
 				}}
 			/>
 			{showMore && (
-				<DropdownMenu
-					deleteFunction={deleteFunction}
-					editFunction={editFunction}
-				/>
+				<DropdownMenu taskId={taskId} Tasks={Tasks} setTasks={setTasks} />
 			)}
 		</div>
 	);
