@@ -6,15 +6,11 @@ import lowImportance from '@assets/lowImportance.png';
 import tickIcon from '@assets/tickIcon.png';
 import closeIcon from '@assets/closeIcon.png';
 
-function addTask(
-	tasks: Task[],
-	setTasks: (tasks: Task[]) => void,
-	newTask: Task
-) {
+function addTask(tasks: Task[], setTasks: Function, newTask: Task) {
 	setTasks([...tasks, newTask]);
 }
 
-function ImportanceTab({
+export function ImportanceTab({
 	imgSrc,
 	label,
 	id,
@@ -48,7 +44,7 @@ export default function CreateTask({
 }: {
 	setIsClicked: (isClicked: boolean) => void;
 	tasks: Task[];
-	setTasks: (tasks: Task[]) => void;
+	setTasks: Function;
 }) {
 	const [activeTab, setActiveTab] = useState('low');
 	const [category, setCategory] = useState('Brak');
