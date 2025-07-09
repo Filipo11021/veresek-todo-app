@@ -5,10 +5,7 @@ import midImportance from '@assets/midImportance.png';
 import lowImportance from '@assets/lowImportance.png';
 import tickIcon from '@assets/tickIcon.png';
 import closeIcon from '@assets/closeIcon.png';
-
-function addTask(tasks: Task[], setTasks: Function, newTask: Task) {
-	setTasks([...tasks, newTask]);
-}
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 export function ImportanceTab({
 	imgSrc,
@@ -133,17 +130,20 @@ export default function CreateTask({
 					<button
 						className='py-4 px-6 bg-profile-icon-background flex items-center  rounded-xl cursor-pointer'
 						onClick={() => {
-							addTask(tasks, setTasks, {
-								id: tasks[tasks.length - 1].id + 1,
-								name: name,
-								desc: desc,
-								category: category,
-								isDone: false,
-								importance: activeTab,
-							});
+							setTasks([
+								...tasks,
+								{
+									id: crypto.randomUUID(),
+									name: name,
+									desc: desc,
+									category: category,
+									isDone: false,
+									importance: activeTab,
+								},
+							]);
 							setIsClicked(false);
 						}}>
-						<img src={tickIcon} className='w-[18px] h-[13px mr-2.5' />
+						<img src={tickIcon} className='w-[18px] h-[13px] mr-2.5' />
 						Dodaj zadanie
 					</button>
 				</div>

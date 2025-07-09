@@ -12,28 +12,27 @@ import { ImportanceTab } from './CreateTask';
 
 function DrawDropdownOptions({
 	taskId,
-	Tasks,
+	tasks,
 	setTasks,
 	setIsClicked,
 }: {
 	taskId: number;
-	Tasks: Task[];
+	tasks: Task[];
 	setTasks: Function;
 	setIsClicked: Function;
 }) {
 	function deleteFunction() {
-		let newTasks = [...Tasks];
+		let newTasks = [...tasks];
 		for (let i = 0; i < newTasks.length; i++) {
 			if (newTasks[i].id === taskId) {
 				newTasks.splice(i, 1);
 				setTasks([...newTasks]);
-				console.log(Tasks);
 			}
 		}
 	}
 
 	return (
-		<div>
+		<div className='p-4'>
 			<div
 				key={0}
 				onClick={() => {
@@ -47,7 +46,7 @@ function DrawDropdownOptions({
 			<div
 				key={1}
 				onClick={() => {
-					deleteFunction;
+					deleteFunction();
 				}}>
 				<img src={deleteIcon} />
 				<p>Usuń</p>
@@ -58,13 +57,13 @@ function DrawDropdownOptions({
 function editTaskValues(
 	taskId: number,
 	setTasks: Function,
-	Tasks: Task[],
+	tasks: Task[],
 	activeTab: string,
 	category: string,
 	name: string,
 	desc: string
 ) {
-	const oldObjectIndex = Tasks.findIndex(task => task.id === taskId);
+	const oldObjectIndex = tasks.findIndex(task => task.id === taskId);
 	const editedTask = {
 		id: taskId,
 		name: name,
@@ -73,21 +72,20 @@ function editTaskValues(
 		isDone: false,
 		importance: activeTab,
 	};
-	const tempTasks = Tasks;
+	const tempTasks = tasks;
 	tempTasks[oldObjectIndex] = editedTask;
 	setTasks(tempTasks);
-	console.log(Tasks);
 }
 function EditFunction({
 	isClicked,
 	setIsClicked,
-	Tasks,
+	tasks,
 	setTasks,
 	taskId,
 }: {
 	isClicked: boolean;
 	setIsClicked: Function;
-	Tasks: Task[];
+	tasks: Task[];
 	setTasks: Function;
 	taskId: number;
 }) {
@@ -99,7 +97,7 @@ function EditFunction({
 		<div
 			className={
 				isClicked
-					? 'absolute top-0 left-0 w-[100vw] h-[100vh] bg-black/50 backdrop-blur-sm z-10'
+					? 'absolute top-0 left-0 w-[100vw] h-[100vh] bg-black/50 backdrop-blur-sm z-10 cursor-default'
 					: 'hidden absolute top-0 left-0 w-[100vw] h-[100vh] bg-black/50 backdrop-blur-sm z-10'
 			}>
 			<div className='absolute top-[50%] left-[50%] bg-creating-task-background -translate-1/2 text-white py-8 px-6 rounded-2xl border-task-border border min-w-[450px]'>
@@ -186,7 +184,7 @@ function EditFunction({
 							editTaskValues(
 								taskId,
 								setTasks,
-								Tasks,
+								tasks,
 								activeTab,
 								category,
 								name,
@@ -204,12 +202,12 @@ function EditFunction({
 }
 function DropdownMenu({
 	taskId,
-	Tasks,
+	tasks,
 	setTasks,
 	setIsClicked,
 }: {
 	taskId: number;
-	Tasks: Task[];
+	tasks: Task[];
 	setTasks: Function;
 	setIsClicked: Function;
 }) {
@@ -218,7 +216,7 @@ function DropdownMenu({
 			<div className='absolute bg-dropdown-background p-1'>
 				<DrawDropdownOptions
 					taskId={taskId}
-					Tasks={Tasks}
+					tasks={tasks}
 					setTasks={setTasks}
 					setIsClicked={setIsClicked}
 				/>
@@ -229,17 +227,17 @@ function DropdownMenu({
 
 export default function MoreOptions({
 	taskId,
-	Tasks,
+	tasks,
 	setTasks,
 }: {
 	taskId: number;
-	Tasks: Task[];
+	tasks: Task[];
 	setTasks: Function;
 }) {
 	const [showMore, setShowMore] = useState(false);
 	const [isClicked, setIsClicked] = useState<boolean>(false);
 	return (
-		<div>
+		<div className='cursor-pointer'>
 			<img
 				src={moreBtn}
 				alt='more info'
@@ -251,7 +249,7 @@ export default function MoreOptions({
 			{showMore && (
 				<DropdownMenu
 					taskId={taskId}
-					Tasks={Tasks}
+					tasks={tasks}
 					setTasks={setTasks}
 					setIsClicked={setIsClicked}
 				/>
@@ -259,7 +257,7 @@ export default function MoreOptions({
 			<EditFunction
 				isClicked={isClicked}
 				setIsClicked={setIsClicked}
-				Tasks={Tasks}
+				tasks={tasks}
 				setTasks={setTasks}
 				taskId={taskId}
 			/>

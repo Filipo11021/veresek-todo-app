@@ -15,10 +15,27 @@ function DropdownOption({ imgSrc, label }: { imgSrc: string; label: string }) {
 }
 export default function CreateTask(task: TaskWithSetTask) {
 	return (
-		<div className='flex text-white w-full justify-between bg-task-background px-6 py-4.5 rounded-2xl mb-3 border-task-border border'>
-			<div>
-				<h3 className='font-bold'>{task.name}</h3>
-				<p className='text-sm'>{task.desc}</p>
+		<div
+			className={`flex text-white w-full justify-between bg-task-background px-6 py-4.5 rounded-2xl mb-3 border-task-border border ${
+				task.isDone && 'opacity-50'
+			} transition`}>
+			<div className='flex gap-5'>
+				<input
+					type='checkbox'
+					className='w-5'
+					onClick={() => {
+						const newTask = { ...task, isDone: !task.isDone };
+						const newTasks = [...task.tasks];
+						const taskIndex = newTasks.findIndex(task => task.id == newTask.id);
+						newTasks.splice(taskIndex, 1, newTask);
+						task.setTasks(newTasks);
+					}}
+					checked={task.isDone}
+				/>
+				<div>
+					<h3 className='font-bold'>{task.name}</h3>
+					<p className='text-sm'>{task.desc}</p>
+				</div>
 			</div>
 			<div className='flex items-center'>
 				<p className='px-4 pt-2.5 pb-3 rounded-xl mr-3 border-task-category-border border'>
@@ -45,7 +62,7 @@ export default function CreateTask(task: TaskWithSetTask) {
 				</div>
 				<MoreOptions
 					taskId={task.id}
-					Tasks={task.tasks}
+					tasks={task.tasks}
 					setTasks={task.setTasks}
 				/>
 			</div>

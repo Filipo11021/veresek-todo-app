@@ -4,6 +4,7 @@ import AddTaskButton from './task/AddTaskBtn';
 import CreateTask from './task/CreateTask';
 import wavingHand from '@assets/wavingHand.png';
 import profileIcon from '@assets/profile.svg';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 
 export interface Task {
 	id: number;
@@ -25,7 +26,7 @@ export interface TaskWithSetTask {
 }
 
 function WelcomeHeader() {
-	const [userName, setUserName] = useState('Veresek');
+	const userName = 'Veresek';
 	return (
 		<div className='rounded-2xl bg-linear-to-br from-start-gradient to-end-gradient flex p-6 gap-2 items-center justify-between'>
 			<div className='flex items-center'>
@@ -72,6 +73,7 @@ function DashboardText({
 	);
 }
 function TaskList({ tasks, setTasks }: { tasks: Task[]; setTasks: Function }) {
+	tasks.sort((a, b) => Number(a.isDone) - Number(b.isDone));
 	return (
 		<div className='w-full'>
 			{tasks.map((task, index) => {
@@ -94,24 +96,8 @@ function TaskList({ tasks, setTasks }: { tasks: Task[]; setTasks: Function }) {
 }
 
 export default function Dashboard() {
-	const [tasks, setTasks] = useState([
-		{
-			id: 1,
-			name: 'Zadanie 1',
-			desc: 'Opis zadania pierwszego',
-			category: 'Szkoła',
-			isDone: false,
-			importance: 'high',
-		},
-		{
-			id: 2,
-			name: 'Zadanie 2',
-			desc: 'Opis zadania drugiego',
-			category: 'Praca',
-			isDone: true,
-			importance: 'low',
-		},
-	]);
+	let task = JSON.parse(localStorage.getItem('tasks') || '[]');
+	const [tasks, setTasks] = useLocalStorage('tasks', task);
 	return (
 		<main className='bg-main-section p-8'>
 			<WelcomeHeader />
