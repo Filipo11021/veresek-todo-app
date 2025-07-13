@@ -4,7 +4,6 @@ import AddTaskButton from './task/AddTaskBtn';
 import CreateTask from './task/CreateTask';
 import wavingHand from '@assets/wavingHand.png';
 import profileIcon from '@assets/profile.svg';
-import { useLocalStorage } from '../hooks/useLocalStorage';
 
 export interface Task {
 	id: number;
@@ -48,9 +47,13 @@ function WelcomeHeader() {
 function DashboardText({
 	tasks,
 	setTasks,
+	categoryNames,
+	setCategoryNames,
 }: {
 	tasks: Task[];
-	setTasks: (tasks: Task[]) => void;
+	setTasks: Function;
+	categoryNames: string[];
+	setCategoryNames: Function;
 }) {
 	const [isClicked, setIsClicked] = useState<boolean>(false);
 	return (
@@ -67,42 +70,73 @@ function DashboardText({
 					setIsClicked={setIsClicked}
 					tasks={tasks}
 					setTasks={setTasks}
+					categoryNames={categoryNames}
+					setCategoryNames={setCategoryNames}
 				/>
 			)}
 		</div>
 	);
 }
-function TaskList({ tasks, setTasks }: { tasks: Task[]; setTasks: Function }) {
+function TaskList({
+	tasks,
+	setTasks,
+	activeCategory,
+}: {
+	tasks: Task[];
+	setTasks: Function;
+	activeCategory: string[];
+}) {
 	tasks.sort((a, b) => Number(a.isDone) - Number(b.isDone));
 	return (
 		<div className='w-full'>
 			{tasks.map((task, index) => {
-				return (
-					<Task
-						id={task.id}
-						name={task.name}
-						desc={task.desc}
-						category={task.category}
-						isDone={task.isDone}
-						importance={task.importance}
-						key={index}
-						setTasks={setTasks}
-						tasks={tasks}
-					/>
-				);
+				if (activeCategory.includes(task.category)) {
+					return (
+						<Task
+							id={task.id}
+							name={task.name}
+							desc={task.desc}
+							category={task.category}
+							isDone={task.isDone}
+							importance={task.importance}
+							key={index}
+							setTasks={setTasks}
+							tasks={tasks}
+						/>
+					);
+				}
 			})}
 		</div>
 	);
 }
 
-export default function Dashboard() {
-	let task = JSON.parse(localStorage.getItem('tasks') || '[]');
-	const [tasks, setTasks] = useLocalStorage('tasks', task);
+export default function Dashboard({
+	tasks,
+	setTasks,
+	activeCategory,
+	categoryNames,
+	setCategoryNames,
+}: {
+	tasks: Task[];
+	setTasks: Function;
+	activeCategory: string[];
+	categoryNames: string[];
+	setCategoryNames: Function;
+}) {
 	return (
 		<main className='bg-main-section p-8'>
 			<WelcomeHeader />
-			<DashboardText tasks={tasks} setTasks={setTasks} />
-			<TaskList tasks={tasks} setTasks={setTasks} />
+			<DashboardText
+				tasks={tasks}
+				setTasks={setTasks}
+				categoryNames={categoryNames}
+				setCategoryNames={setCategoryNames}
+			/>
+			<TaskList
+				tasks={tasks}
+				setTasks={setTasks}
+				activeCategory={activeCategory}
+			/>
 		</main>
 	);
 }

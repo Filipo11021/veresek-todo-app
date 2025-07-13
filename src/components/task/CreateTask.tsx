@@ -5,7 +5,6 @@ import midImportance from '@assets/midImportance.png';
 import lowImportance from '@assets/lowImportance.png';
 import tickIcon from '@assets/tickIcon.png';
 import closeIcon from '@assets/closeIcon.png';
-import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 export function ImportanceTab({
 	imgSrc,
@@ -38,10 +37,14 @@ export default function CreateTask({
 	setIsClicked,
 	tasks,
 	setTasks,
+	categoryNames,
+	setCategoryNames,
 }: {
 	setIsClicked: (isClicked: boolean) => void;
 	tasks: Task[];
 	setTasks: Function;
+	categoryNames: string[];
+	setCategoryNames: Function;
 }) {
 	const [activeTab, setActiveTab] = useState('low');
 	const [category, setCategory] = useState('Brak');
@@ -141,6 +144,9 @@ export default function CreateTask({
 									importance: activeTab,
 								},
 							]);
+							if (!categoryNames.includes(category)) {
+								setCategoryNames(...categoryNames, category);
+							}
 							setIsClicked(false);
 						}}>
 						<img src={tickIcon} className='w-[18px] h-[13px] mr-2.5' />

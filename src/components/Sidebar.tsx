@@ -1,58 +1,88 @@
-import { useState } from 'react';
 import SearchBtn from '../assets/search.svg';
-import PlusBtn from '../assets/plus.svg';
 import '../App.css';
+import { Task } from './Dashboard';
+import { useState } from 'react';
 
-function AddBtn({ catHeader }: { catHeader: string }) {
-	if (catHeader === 'Kategorie') {
-		return (
-			<>
-				<img
-					src={PlusBtn}
-					alt='add category button'
-					className='w-[15px] h-[15px] cursor-pointer accent-checked-checkbox'
-				/>
-			</>
-		);
-	}
-}
-
-function CategoryBtn({ catName }: { catName: string }) {
+function CategoryBtn({
+	categoryName,
+	setActiveCategory,
+	activeCategory,
+	essa,
+}: {
+	categoryName: string;
+	setActiveCategory: Function;
+	activeCategory: string[];
+	essa: string;
+}) {
 	return (
 		<div className='flex h-10'>
-			<input type='checkbox' className='m-[11px] w-4.5' />
-			<button className='text-white block text-sm bg-none'>{catName}</button>
+			<input
+				type='checkbox'
+				className='m-[11px] w-4.5'
+				id={essa}
+				onClick={() => {
+					if (activeCategory.includes(categoryName)) {
+						const newActiveCategories = activeCategory.filter(
+							category => category != categoryName
+						);
+						setActiveCategory([...newActiveCategories]);
+					} else {
+						setActiveCategory([...activeCategory, categoryName]);
+					}
+				}}
+				checked={activeCategory.includes(categoryName)}
+			/>
+			<button className='text-white block text-sm bg-none'>
+				{categoryName}
+			</button>
 		</div>
 	);
 }
 function Categories({
-	catNames,
+	categoryNames,
 	catHeader,
+	setActiveCategory,
+	activeCategory,
+	essa,
 }: {
-	catNames: string[];
+	categoryNames: string[];
 	catHeader: string;
+	setActiveCategory: Function;
+	activeCategory: string[];
+	essa: string;
 }) {
+	console.log(categoryNames);
 	return (
 		<div className='mt-8'>
 			<div className='flex justify-between w-[216px] items-center pb-4'>
 				<p className='text-white text-xl ml-3'>{catHeader}</p>
-				<AddBtn catHeader={catHeader} />
 			</div>
-			{catNames.map((catName, index) => {
-				return <CategoryBtn key={index} catName={catName} />;
+
+			{categoryNames.map((categoryName, index) => {
+				return (
+					<CategoryBtn
+						key={index}
+						categoryName={categoryName}
+						setActiveCategory={setActiveCategory}
+						activeCategory={activeCategory}
+						essa={essa}
+					/>
+				);
 			})}
 		</div>
 	);
 }
-export default function Sidebar() {
-	const [catNames, setCatNames] = useState([
-		'Wszystkie',
-		'Szkoła',
-		'Praca',
-		'Zadania',
-		'Zadania',
-	]);
-	const StatusNames = ['Wszystkie', 'Do zrobienia', 'Wykonane'];
+export default function Sidebar({
+	setActiveCategory,
+	activeCategory,
+	categoryNames,
+}: {
+	tasks: Task[];
+	setActiveCategory: Function;
+	activeCategory: string[];
+	categoryNames: string[];
+}) {
+	const [essa, setEssa] = useState('a');
 	return (
 		<nav className='px-3 pt-8 pb-5 w-[240px] relative h-screen'>
 			<div>
@@ -68,10 +98,29 @@ export default function Sidebar() {
 						className='absolute bottom-4.5 left-[12px] cursor-pointer'
 					/>
 				</div>
-				<Categories catNames={catNames} catHeader='Kategorie' />
-				<Categories catNames={StatusNames} catHeader='Status' />
+				<Categories
+					categoryNames={categoryNames}
+					catHeader='Kategorie'
+					setActiveCategory={setActiveCategory}
+					activeCategory={activeCategory}
+					essa={essa}
+				/>
+				<div>
+					<p className='text-white text-xl ml-3 mt-10'>Współwłaściciele</p>
+					<ol className='text-white ml-6'>
+						<li>1. fonter_: 10%</li>
+						<li>2. Filipo11: 10%</li>
+						<li>3. nigellapl: 9.99%</li>
+					</ol>
+					<p className='text-white text-sm ml-3 mt-5'>*1zl -1%</p>
+				</div>
 			</div>
-			<button className='bg-none text-white border border-button-border rounded-xl absolute bottom-5 py-4 w-[90%] cursor-pointer'>
+			<button
+				className='bg-none text-white border border-button-border rounded-xl absolute bottom-5 py-4 w-[90%] cursor-pointer'
+				onClick={() => {
+					setActiveCategory([]);
+					setEssa(essa + '1');
+				}}>
 				Wyczyść filtry
 			</button>
 		</nav>

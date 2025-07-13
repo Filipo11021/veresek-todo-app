@@ -30,7 +30,7 @@ export default function CreateTask(task: TaskWithSetTask) {
 						newTasks.splice(taskIndex, 1, newTask);
 						task.setTasks(newTasks);
 					}}
-					checked={task.isDone}
+					defaultChecked={task.isDone}
 				/>
 				<div>
 					<h3 className='font-bold'>{task.name}</h3>
