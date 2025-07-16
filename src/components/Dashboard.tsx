@@ -1,26 +1,10 @@
-import { useState } from 'react';
-import Task from './task/Task';
+import { Dispatch, SetStateAction, useState } from 'react';
+import { Task } from './task/Task';
 import AddTaskButton from './task/AddTaskBtn';
-import CreateTask from './task/CreateTask';
+import { CreateTask } from './task/CreateTask';
 import wavingHand from '@assets/wavingHand.png';
 import profileIcon from '@assets/profile.svg';
-
-export interface Task {
-	id: number;
-	name: string;
-	desc: string;
-	category: string;
-	isDone: boolean;
-	importance: string;
-}
-export interface TaskWithSetTask extends Task {
-	setTasks: Function;
-	tasks: Task[];
-}
-export interface TaskWithCategoryNames extends TaskWithSetTask {
-	categoryNames: string[];
-	setCategoryNames: Function;
-}
+import { TaskItem } from './types';
 
 function WelcomeHeader() {
 	const userName = 'Veresek';
@@ -43,21 +27,13 @@ function WelcomeHeader() {
 	);
 }
 function DashboardText({
-	tasks,
 	setTasks,
 	categoryNames,
-	setCategoryNames,
-	activeCategory,
-	setActiveCategory,
 }: {
-	tasks: Task[];
-	setTasks: Function;
+	setTasks: Dispatch<SetStateAction<TaskItem[]>>;
 	categoryNames: string[];
-	setCategoryNames: Function;
-	activeCategory: string[];
-	setActiveCategory: Function;
 }) {
-	const [isClicked, setIsClicked] = useState<boolean>(false);
+	const [showCreateTask, setShowCreateTask] = useState<boolean>(false);
 	return (
 		<div className='flex items-center justify-between my-10'>
 			<div>
@@ -66,16 +42,12 @@ function DashboardText({
 					Poniżej znajdziesz wszystkie swoje zadania, którymi możesz zarządzać
 				</p>
 			</div>
-			<AddTaskButton setIsClicked={setIsClicked} />
-			{isClicked && (
+			<AddTaskButton setIsClicked={setShowCreateTask} />
+			{showCreateTask && (
 				<CreateTask
-					setIsClicked={setIsClicked}
-					tasks={tasks}
+					setIsClicked={setShowCreateTask}
 					setTasks={setTasks}
 					categoryNames={categoryNames}
-					setCategoryNames={setCategoryNames}
-					activeCategory={activeCategory}
-					setActiveCategory={setActiveCategory}
 				/>
 			)}
 		</div>
@@ -85,34 +57,18 @@ function TaskList({
 	tasks,
 	setTasks,
 	activeCategory,
-	setCategoryNames,
-	categoryNames,
 }: {
-	tasks: Task[];
-	setTasks: Function;
+	tasks: TaskItem[];
+	setTasks: Dispatch<SetStateAction<TaskItem[]>>;
 	activeCategory: string[];
-	setCategoryNames: Function;
 	categoryNames: string[];
 }) {
-	tasks.sort((a, b) => Number(a.isDone) - Number(b.isDone));
 	return (
 		<div className='w-full'>
-			{tasks.map((task, index) => {
+			{tasks.map((task) => {
 				if (activeCategory.includes(task.category)) {
 					return (
-						<Task
-							id={task.id}
-							name={task.name}
-							desc={task.desc}
-							category={task.category}
-							isDone={task.isDone}
-							importance={task.importance}
-							key={index}
-							setTasks={setTasks}
-							tasks={tasks}
-							categoryNames={categoryNames}
-							setCategoryNames={setCategoryNames}
-						/>
+						<Task task={task} setTasks={setTasks} tasks={tasks} key={task.id} />
 					);
 				}
 			})}
@@ -124,33 +80,21 @@ export default function Dashboard({
 	tasks,
 	setTasks,
 	activeCategory,
-	setActiveCategory,
 	categoryNames,
-	setCategoryNames,
 }: {
-	tasks: Task[];
-	setTasks: Function;
+	tasks: TaskItem[];
+	setTasks: Dispatch<SetStateAction<TaskItem[]>>;
 	activeCategory: string[];
-	setActiveCategory: Function;
 	categoryNames: string[];
-	setCategoryNames: Function;
 }) {
 	return (
 		<main className='bg-main-section p-8'>
 			<WelcomeHeader />
-			<DashboardText
-				tasks={tasks}
-				setTasks={setTasks}
-				categoryNames={categoryNames}
-				setCategoryNames={setCategoryNames}
-				activeCategory={activeCategory}
-				setActiveCategory={setActiveCategory}
-			/>
+			<DashboardText setTasks={setTasks} categoryNames={categoryNames} />
 			<TaskList
 				tasks={tasks}
 				setTasks={setTasks}
 				activeCategory={activeCategory}
-				setCategoryNames={setCategoryNames}
 				categoryNames={categoryNames}
 			/>
 		</main>

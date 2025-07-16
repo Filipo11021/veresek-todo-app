@@ -4,7 +4,9 @@ import lowImportance from '@assets/lowImportance.png';
 import todoTaskIcon from '@assets/todoTaskIcon.png';
 import doneTaskIcon from '@assets/doneTaskIcon.png';
 import MoreOptions from './MoreOptions';
-import { TaskWithCategoryNames } from '../Dashboard';
+import { TaskItem } from '../types';
+import { Dispatch, SetStateAction } from 'react';
+
 function DropdownOption({ imgSrc, label }: { imgSrc: string; label: string }) {
 	return (
 		<div className='flex items-center'>
@@ -13,24 +15,36 @@ function DropdownOption({ imgSrc, label }: { imgSrc: string; label: string }) {
 		</div>
 	);
 }
-export default function CreateTask(task: TaskWithCategoryNames) {
+
+export function Task({
+	task,
+	setTasks,
+	tasks,
+}: {
+	task: TaskItem;
+	setTasks: Dispatch<SetStateAction<TaskItem[]>>;
+	tasks: TaskItem[];
+}) {
+	function toggleTaskStatus(taskId: string) {
+		setTasks((tasks) =>
+			tasks.map((task) =>
+				task.id === taskId ? { ...task, isDone: !task.isDone } : task,
+			),
+		);
+	}
+
 	return (
 		<div
 			className={`flex text-white w-full justify-between bg-task-background px-6 py-4.5 rounded-2xl mb-3 border-task-border border ${
 				task.isDone && 'opacity-50'
-			} transition`}>
+			} transition`}
+		>
 			<div className='flex gap-5'>
 				<input
 					type='checkbox'
 					className='w-5'
-					onClick={() => {
-						const newTask = { ...task, isDone: !task.isDone };
-						const newTasks = [...task.tasks];
-						const taskIndex = newTasks.findIndex(task => task.id == newTask.id);
-						newTasks.splice(taskIndex, 1, newTask);
-						task.setTasks(newTasks);
-					}}
-					defaultChecked={task.isDone}
+					onClick={() => toggleTaskStatus(task.id)}
+					checked={task.isDone}
 				/>
 				<div>
 					<h3 className='font-bold'>{task.name}</h3>
@@ -60,13 +74,7 @@ export default function CreateTask(task: TaskWithCategoryNames) {
 						<DropdownOption imgSrc={todoTaskIcon} label='Do zrobienia' />
 					)}
 				</div>
-				<MoreOptions
-					taskId={task.id}
-					tasks={task.tasks}
-					setTasks={task.setTasks}
-					categoryNames={task.categoryNames}
-					setCategoryNames={task.setCategoryNames}
-				/>
+				<MoreOptions taskId={task.id} tasks={tasks} setTasks={setTasks} />
 			</div>
 		</div>
 	);

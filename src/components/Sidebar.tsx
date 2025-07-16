@@ -1,7 +1,7 @@
 import SearchBtn from '../assets/search.svg';
 import '../App.css';
-import { Task } from './Dashboard';
 import { useState } from 'react';
+import { TaskItem } from './types';
 
 function CategoryBtn({
 	categoryName,
@@ -23,7 +23,7 @@ function CategoryBtn({
 				onClick={() => {
 					if (activeCategory.includes(categoryName)) {
 						const newActiveCategories = activeCategory.filter(
-							category => category != categoryName
+							(category) => category != categoryName,
 						);
 						setActiveCategory([...newActiveCategories]);
 					} else {
@@ -77,7 +77,7 @@ export default function Sidebar({
 	activeCategory,
 	categoryNames,
 }: {
-	tasks: Task[];
+	tasks: TaskItem[];
 	setActiveCategory: Function;
 	activeCategory: string[];
 	categoryNames: string[];
@@ -121,7 +121,8 @@ export default function Sidebar({
 				onClick={() => {
 					setActiveCategory([]);
 					setEssa(essa + '1');
-				}}>
+				}}
+			>
 				Wyczyść filtry
 			</button>
 		</nav>
