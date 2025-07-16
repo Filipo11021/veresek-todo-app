@@ -108,9 +108,10 @@ export default function Sidebar({
 				<div>
 					<p className='text-white text-xl ml-3 mt-10'>Współwłaściciele</p>
 					<ol className='text-white ml-6'>
-						<li>1. fonter_: 10%</li>
-						<li>2. Filipo11: 10%</li>
-						<li>3. nigellapl: 9.99%</li>
+						<li>1. wapiersk71lidzbark: 11%</li>
+						<li>2. fonter_: 10%</li>
+						<li>3. Filipo11: 10%</li>
+						<li>4. nigellapl: 9.99%</li>
 					</ol>
 					<p className='text-white text-sm ml-3 mt-5'>*1zl -1%</p>
 				</div>

@@ -13,15 +13,13 @@ export interface Task {
 	isDone: boolean;
 	importance: string;
 }
-export interface TaskWithSetTask {
-	id: number;
-	name: string;
-	desc: string;
-	category: string;
-	isDone: boolean;
-	importance: string;
+export interface TaskWithSetTask extends Task {
 	setTasks: Function;
 	tasks: Task[];
+}
+export interface TaskWithCategoryNames extends TaskWithSetTask {
+	categoryNames: string[];
+	setCategoryNames: Function;
 }
 
 function WelcomeHeader() {
@@ -49,11 +47,15 @@ function DashboardText({
 	setTasks,
 	categoryNames,
 	setCategoryNames,
+	activeCategory,
+	setActiveCategory,
 }: {
 	tasks: Task[];
 	setTasks: Function;
 	categoryNames: string[];
 	setCategoryNames: Function;
+	activeCategory: string[];
+	setActiveCategory: Function;
 }) {
 	const [isClicked, setIsClicked] = useState<boolean>(false);
 	return (
@@ -72,6 +74,8 @@ function DashboardText({
 					setTasks={setTasks}
 					categoryNames={categoryNames}
 					setCategoryNames={setCategoryNames}
+					activeCategory={activeCategory}
+					setActiveCategory={setActiveCategory}
 				/>
 			)}
 		</div>
@@ -81,10 +85,14 @@ function TaskList({
 	tasks,
 	setTasks,
 	activeCategory,
+	setCategoryNames,
+	categoryNames,
 }: {
 	tasks: Task[];
 	setTasks: Function;
 	activeCategory: string[];
+	setCategoryNames: Function;
+	categoryNames: string[];
 }) {
 	tasks.sort((a, b) => Number(a.isDone) - Number(b.isDone));
 	return (
@@ -102,6 +110,8 @@ function TaskList({
 							key={index}
 							setTasks={setTasks}
 							tasks={tasks}
+							categoryNames={categoryNames}
+							setCategoryNames={setCategoryNames}
 						/>
 					);
 				}
@@ -114,12 +124,14 @@ export default function Dashboard({
 	tasks,
 	setTasks,
 	activeCategory,
+	setActiveCategory,
 	categoryNames,
 	setCategoryNames,
 }: {
 	tasks: Task[];
 	setTasks: Function;
 	activeCategory: string[];
+	setActiveCategory: Function;
 	categoryNames: string[];
 	setCategoryNames: Function;
 }) {
@@ -131,11 +143,15 @@ export default function Dashboard({
 				setTasks={setTasks}
 				categoryNames={categoryNames}
 				setCategoryNames={setCategoryNames}
+				activeCategory={activeCategory}
+				setActiveCategory={setActiveCategory}
 			/>
 			<TaskList
 				tasks={tasks}
 				setTasks={setTasks}
 				activeCategory={activeCategory}
+				setCategoryNames={setCategoryNames}
+				categoryNames={categoryNames}
 			/>
 		</main>
 	);

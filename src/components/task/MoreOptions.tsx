@@ -229,10 +229,14 @@ export default function MoreOptions({
 	taskId,
 	tasks,
 	setTasks,
+	categoryNames,
+	setCategoryNames,
 }: {
 	taskId: number;
 	tasks: Task[];
 	setTasks: Function;
+	categoryNames: string[];
+	setCategoryNames: Function;
 }) {
 	const [showMore, setShowMore] = useState(false);
 	const [isClicked, setIsClicked] = useState<boolean>(false);

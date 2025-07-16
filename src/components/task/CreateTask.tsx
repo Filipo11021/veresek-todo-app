@@ -39,12 +39,16 @@ export default function CreateTask({
 	setTasks,
 	categoryNames,
 	setCategoryNames,
+	activeCategory,
+	setActiveCategory,
 }: {
 	setIsClicked: (isClicked: boolean) => void;
 	tasks: Task[];
 	setTasks: Function;
 	categoryNames: string[];
 	setCategoryNames: Function;
+	activeCategory: string[];
+	setActiveCategory: Function;
 }) {
 	const [activeTab, setActiveTab] = useState('low');
 	const [category, setCategory] = useState('Brak');

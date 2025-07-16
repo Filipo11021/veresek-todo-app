@@ -3,8 +3,8 @@ import midImportance from '@assets/midImportance.png';
 import lowImportance from '@assets/lowImportance.png';
 import todoTaskIcon from '@assets/todoTaskIcon.png';
 import doneTaskIcon from '@assets/doneTaskIcon.png';
-import { TaskWithSetTask } from '../Dashboard';
 import MoreOptions from './MoreOptions';
+import { TaskWithCategoryNames } from '../Dashboard';
 function DropdownOption({ imgSrc, label }: { imgSrc: string; label: string }) {
 	return (
 		<div className='flex items-center'>
@@ -13,7 +13,7 @@ function DropdownOption({ imgSrc, label }: { imgSrc: string; label: string }) {
 		</div>
 	);
 }
-export default function CreateTask(task: TaskWithSetTask) {
+export default function CreateTask(task: TaskWithCategoryNames) {
 	return (
 		<div
 			className={`flex text-white w-full justify-between bg-task-background px-6 py-4.5 rounded-2xl mb-3 border-task-border border ${
@@ -64,6 +64,8 @@ export default function CreateTask(task: TaskWithSetTask) {
 					taskId={task.id}
 					tasks={task.tasks}
 					setTasks={task.setTasks}
+					categoryNames={task.categoryNames}
+					setCategoryNames={task.setCategoryNames}
 				/>
 			</div>
 		</div>
