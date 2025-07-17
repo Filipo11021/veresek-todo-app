@@ -26,6 +26,7 @@ export default function App() {
 				setTasks={setTasks}
 				tasks={tasks}
 				activeCategory={activeCategories}
+				setActiveCategories={setActiveCategories}
 				categoryNames={uniqueCategories}
 			/>
 		</div>

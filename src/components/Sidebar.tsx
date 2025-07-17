@@ -23,7 +23,7 @@ function CategoryBtn({
 				onClick={() => {
 					if (activeCategory.includes(categoryName)) {
 						const newActiveCategories = activeCategory.filter(
-							(category) => category != categoryName,
+							category => category != categoryName
 						);
 						setActiveCategory([...newActiveCategories]);
 					} else {
@@ -51,7 +51,6 @@ function Categories({
 	activeCategory: string[];
 	essa: string;
 }) {
-	console.log(categoryNames);
 	return (
 		<div className='mt-8'>
 			<div className='flex justify-between w-[216px] items-center pb-4'>
@@ -108,9 +107,9 @@ export default function Sidebar({
 				<div>
 					<p className='text-white text-xl ml-3 mt-10'>Współwłaściciele</p>
 					<ol className='text-white ml-6'>
-						<li>1. wapiersk71lidzbark: 11%</li>
-						<li>2. fonter_: 10%</li>
-						<li>3. Filipo11: 10%</li>
+						<li>1. Filipo11: 15%</li>
+						<li>2. wapiersk71lidzbark: 11%</li>
+						<li>3. fonter_: 10%</li>
 						<li>4. nigellapl: 9.99%</li>
 					</ol>
 					<p className='text-white text-sm ml-3 mt-5'>*1zl -1%</p>
@@ -121,8 +120,7 @@ export default function Sidebar({
 				onClick={() => {
 					setActiveCategory([]);
 					setEssa(essa + '1');
-				}}
-			>
+				}}>
 				Wyczyść filtry
 			</button>
 		</nav>

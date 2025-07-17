@@ -29,9 +29,13 @@ function WelcomeHeader() {
 function DashboardText({
 	setTasks,
 	categoryNames,
+	activeCategory,
+	setActiveCategories,
 }: {
 	setTasks: Dispatch<SetStateAction<TaskItem[]>>;
 	categoryNames: string[];
+	activeCategory: string[];
+	setActiveCategories: Dispatch<React.SetStateAction<string[]>>;
 }) {
 	const [showCreateTask, setShowCreateTask] = useState<boolean>(false);
 	return (
@@ -48,6 +52,8 @@ function DashboardText({
 					setIsClicked={setShowCreateTask}
 					setTasks={setTasks}
 					categoryNames={categoryNames}
+					activeCategory={activeCategory}
+					setActiveCategories={setActiveCategories}
 				/>
 			)}
 		</div>
@@ -65,7 +71,7 @@ function TaskList({
 }) {
 	return (
 		<div className='w-full'>
-			{tasks.map((task) => {
+			{tasks.map(task => {
 				if (activeCategory.includes(task.category)) {
 					return (
 						<Task task={task} setTasks={setTasks} tasks={tasks} key={task.id} />
@@ -80,17 +86,24 @@ export default function Dashboard({
 	tasks,
 	setTasks,
 	activeCategory,
+	setActiveCategories,
 	categoryNames,
 }: {
 	tasks: TaskItem[];
 	setTasks: Dispatch<SetStateAction<TaskItem[]>>;
 	activeCategory: string[];
+	setActiveCategories: Dispatch<React.SetStateAction<string[]>>;
 	categoryNames: string[];
 }) {
 	return (
 		<main className='bg-main-section p-8'>
 			<WelcomeHeader />
-			<DashboardText setTasks={setTasks} categoryNames={categoryNames} />
+			<DashboardText
+				setTasks={setTasks}
+				categoryNames={categoryNames}
+				activeCategory={activeCategory}
+				setActiveCategories={setActiveCategories}
+			/>
 			<TaskList
 				tasks={tasks}
 				setTasks={setTasks}

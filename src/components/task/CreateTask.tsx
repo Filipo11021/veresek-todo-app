@@ -26,8 +26,7 @@ export function ImportanceTab({
 				(activeTab === id ? 'bg-main-section' : '')
 			}
 			onClick={() => setActiveTab(id)}
-			id={id}
-		>
+			id={id}>
 			<img src={imgSrc} className='mr-2' />
 			<p>{label}</p>
 		</button>
@@ -37,10 +36,15 @@ export function ImportanceTab({
 export function CreateTask({
 	setIsClicked,
 	setTasks,
+	categoryNames,
+	activeCategory,
+	setActiveCategories,
 }: {
 	setIsClicked: Dispatch<SetStateAction<boolean>>;
 	setTasks: Dispatch<SetStateAction<TaskItem[]>>;
 	categoryNames: string[];
+	activeCategory: string[];
+	setActiveCategories: Dispatch<React.SetStateAction<string[]>>;
 }) {
 	const [activeTab, setActiveTab] = useState('low');
 	const [category, setCategory] = useState('Brak');
@@ -66,7 +70,7 @@ export function CreateTask({
 						type='text'
 						placeholder='Podaj nazwę zadania'
 						className='w-full py-4 px-6 rounded-xl bg-task-background'
-						onChange={(e) => {
+						onChange={e => {
 							setName(e.target.value);
 						}}
 					/>
@@ -77,7 +81,7 @@ export function CreateTask({
 						type='text'
 						placeholder='Podaj nazwę kategorii'
 						className='w-full py-4 px-6 rounded-xl bg-task-background'
-						onChange={(e) => {
+						onChange={e => {
 							setCategory(e.target.value);
 						}}
 					/>
@@ -87,7 +91,7 @@ export function CreateTask({
 					<textarea
 						placeholder='Podaj opis zadania'
 						className='px-6 py-4 w-full bg-task-background rounded-xl h-[104px] break-all resize-none'
-						onChange={(e) => {
+						onChange={e => {
 							setDesc(e.target.value);
 						}}
 					/>
@@ -123,8 +127,7 @@ export function CreateTask({
 						className='bg-task-background py-4 px-6 rounded-xl mr-[12px] cursor-pointer'
 						onClick={() => {
 							setIsClicked(false);
-						}}
-					>
+						}}>
 						Anuluj
 					</button>
 					<button
@@ -138,11 +141,10 @@ export function CreateTask({
 								isDone: false,
 								importance: activeTab,
 							};
-
-							setTasks((tasks) => [newTask, ...tasks]);
+							setActiveCategories([...activeCategory, category]);
+							setTasks(tasks => [newTask, ...tasks]);
 							setIsClicked(false);
-						}}
-					>
+						}}>
 						<img src={tickIcon} className='w-[18px] h-[13px] mr-2.5' />
 						Dodaj zadanie
 					</button>
