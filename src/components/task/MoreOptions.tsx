@@ -1,8 +1,8 @@
 import moreBtn from '@assets/more.png';
 import editIcon from '@assets/edit.png';
 import deleteIcon from '@assets/delete.png';
-import { useState } from 'react';
-import { Task } from '../Dashboard';
+import { SetStateAction, Dispatch, useState } from 'react';
+import { TaskItem } from '../types';
 import highImportance from '@assets/highImportance.png';
 import midImportance from '@assets/midImportance.png';
 import lowImportance from '@assets/lowImportance.png';
@@ -12,23 +12,16 @@ import { ImportanceTab } from './CreateTask';
 
 function DrawDropdownOptions({
 	taskId,
-	tasks,
 	setTasks,
 	setIsClicked,
 }: {
-	taskId: number;
-	tasks: Task[];
-	setTasks: Function;
-	setIsClicked: Function;
+	taskId: string;
+	tasks: TaskItem[];
+	setTasks: Dispatch<SetStateAction<TaskItem[]>>;
+	setIsClicked: Dispatch<SetStateAction<boolean>>;
 }) {
 	function deleteFunction() {
-		let newTasks = [...tasks];
-		for (let i = 0; i < newTasks.length; i++) {
-			if (newTasks[i].id === taskId) {
-				newTasks.splice(i, 1);
-				setTasks([...newTasks]);
-			}
-		}
+		setTasks((tasks) => tasks.filter((task) => task.id !== taskId));
 	}
 
 	return (
@@ -39,7 +32,8 @@ function DrawDropdownOptions({
 					{
 						setIsClicked(true);
 					}
-				}}>
+				}}
+			>
 				<img src={editIcon} />
 				<p>Edytuj</p>
 			</div>
@@ -47,7 +41,8 @@ function DrawDropdownOptions({
 				key={1}
 				onClick={() => {
 					deleteFunction();
-				}}>
+				}}
+			>
 				<img src={deleteIcon} />
 				<p>Usuń</p>
 			</div>
@@ -55,15 +50,13 @@ function DrawDropdownOptions({
 	);
 }
 function editTaskValues(
-	taskId: number,
-	setTasks: Function,
-	tasks: Task[],
+	taskId: string,
+	setTasks: Dispatch<SetStateAction<TaskItem[]>>,
 	activeTab: string,
 	category: string,
 	name: string,
-	desc: string
+	desc: string,
 ) {
-	const oldObjectIndex = tasks.findIndex(task => task.id === taskId);
 	const editedTask = {
 		id: taskId,
 		name: name,
@@ -72,22 +65,22 @@ function editTaskValues(
 		isDone: false,
 		importance: activeTab,
 	};
-	const tempTasks = tasks;
-	tempTasks[oldObjectIndex] = editedTask;
-	setTasks(tempTasks);
+
+	setTasks((tasks) =>
+		tasks.map((task) => (task.id === taskId ? editedTask : task)),
+	);
 }
+
 function EditFunction({
 	isClicked,
 	setIsClicked,
-	tasks,
 	setTasks,
 	taskId,
 }: {
 	isClicked: boolean;
-	setIsClicked: Function;
-	tasks: Task[];
-	setTasks: Function;
-	taskId: number;
+	setIsClicked: Dispatch<SetStateAction<boolean>>;
+	setTasks: Dispatch<SetStateAction<TaskItem[]>>;
+	taskId: string;
 }) {
 	const [activeTab, setActiveTab] = useState('low');
 	const [category, setCategory] = useState('Brak');
@@ -99,7 +92,8 @@ function EditFunction({
 				isClicked
 					? 'absolute top-0 left-0 w-[100vw] h-[100vh] bg-black/50 backdrop-blur-sm z-10 cursor-default'
 					: 'hidden absolute top-0 left-0 w-[100vw] h-[100vh] bg-black/50 backdrop-blur-sm z-10'
-			}>
+			}
+		>
 			<div className='absolute top-[50%] left-[50%] bg-creating-task-background -translate-1/2 text-white py-8 px-6 rounded-2xl border-task-border border min-w-[450px]'>
 				<h2 className='text-2xl mb-10 font-semibold'>Dodaj nowe zadanie</h2>
 				<img
@@ -118,7 +112,7 @@ function EditFunction({
 						type='text'
 						placeholder='Edytuj nazwę zadania'
 						className='w-full py-4 px-6 rounded-xl bg-task-background'
-						onChange={e => {
+						onChange={(e) => {
 							setName(e.target.value);
 						}}
 					/>
@@ -129,7 +123,7 @@ function EditFunction({
 						type='text'
 						placeholder='Edytuj nazwę kategorii'
 						className='w-full py-4 px-6 rounded-xl bg-task-background'
-						onChange={e => {
+						onChange={(e) => {
 							setCategory(e.target.value);
 						}}
 					/>
@@ -139,7 +133,7 @@ function EditFunction({
 					<textarea
 						placeholder='Edytuj opis zadania'
 						className='px-6 py-4 w-full bg-task-background rounded-xl h-[104px] break-all resize-none'
-						onChange={e => {
+						onChange={(e) => {
 							setDesc(e.target.value);
 						}}
 					/>
@@ -175,23 +169,17 @@ function EditFunction({
 						className='bg-task-background py-4 px-6 rounded-xl mr-[12px] cursor-pointer'
 						onClick={() => {
 							setIsClicked(false);
-						}}>
+						}}
+					>
 						Anuluj
 					</button>
 					<button
 						className='py-4 px-6 bg-profile-icon-background flex items-center  rounded-xl cursor-pointer'
 						onClick={() => {
-							editTaskValues(
-								taskId,
-								setTasks,
-								tasks,
-								activeTab,
-								category,
-								name,
-								desc
-							);
+							editTaskValues(taskId, setTasks, activeTab, category, name, desc);
 							setIsClicked(false);
-						}}>
+						}}
+					>
 						<img src={tickIcon} className='w-[18px] h-[13px mr-2.5' />
 						Edytuj zadanie
 					</button>
@@ -206,10 +194,10 @@ function DropdownMenu({
 	setTasks,
 	setIsClicked,
 }: {
-	taskId: number;
-	tasks: Task[];
-	setTasks: Function;
-	setIsClicked: Function;
+	taskId: string;
+	tasks: TaskItem[];
+	setTasks: Dispatch<SetStateAction<TaskItem[]>>;
+	setIsClicked: Dispatch<SetStateAction<boolean>>;
 }) {
 	return (
 		<div className='relative -bottom-4 z-1'>
@@ -229,14 +217,10 @@ export default function MoreOptions({
 	taskId,
 	tasks,
 	setTasks,
-	categoryNames,
-	setCategoryNames,
 }: {
-	taskId: number;
-	tasks: Task[];
-	setTasks: Function;
-	categoryNames: string[];
-	setCategoryNames: Function;
+	taskId: string;
+	tasks: TaskItem[];
+	setTasks: Dispatch<SetStateAction<TaskItem[]>>;
 }) {
 	const [showMore, setShowMore] = useState(false);
 	const [isClicked, setIsClicked] = useState<boolean>(false);
@@ -247,7 +231,7 @@ export default function MoreOptions({
 				alt='more info'
 				className='border-task-category-border border rounded-xl py-3 px-[17px]'
 				onClick={() => {
-					setShowMore(toggle => !toggle);
+					setShowMore((toggle) => !toggle);
 				}}
 			/>
 			{showMore && (
@@ -261,7 +245,6 @@ export default function MoreOptions({
 			<EditFunction
 				isClicked={isClicked}
 				setIsClicked={setIsClicked}
-				tasks={tasks}
 				setTasks={setTasks}
 				taskId={taskId}
 			/>

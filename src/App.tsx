@@ -2,31 +2,31 @@ import { useLocalStorage } from './hooks/useLocalStorage';
 import './App.css';
 import Sidebar from './components/Sidebar';
 import Dashboard from './components/Dashboard';
-import { useState } from 'react';
+import { TaskItem } from './components/types';
+
 export default function App() {
-	let task = JSON.parse(localStorage.getItem('tasks') || '[]');
-	const [tasks, setTasks] = useLocalStorage('tasks', task);
-	const [activeCategory, setActiveCategory] = useLocalStorage('categories', []);
-	let categories = tasks.map((task: { category: any }) => {
-		return task.category;
-	});
-	let x = new Set(categories);
-	categories = [...x];
-	const [categoryNames, setCategoryNames] = useState(categories);
+	const [tasks, setTasks] = useLocalStorage<TaskItem[]>('tasks', []);
+	const [activeCategories, setActiveCategories] = useLocalStorage<string[]>(
+		'categories',
+		[],
+	);
+	const uniqueCategories = Array.from(
+		new Set(tasks.map((task) => task.category)),
+	);
+
 	return (
 		<div className='flex'>
 			<Sidebar
-				tasks={task}
-				setActiveCategory={setActiveCategory}
-				activeCategory={activeCategory}
-				categoryNames={categoryNames}
+				tasks={tasks}
+				setActiveCategory={setActiveCategories}
+				activeCategory={activeCategories}
+				categoryNames={uniqueCategories}
 			/>
 			<Dashboard
 				setTasks={setTasks}
 				tasks={tasks}
-				activeCategory={activeCategory}
-				categoryNames={categoryNames}
-				setCategoryNames={setCategoryNames}
+				activeCategory={activeCategories}
+				categoryNames={uniqueCategories}
 			/>
 		</div>
 	);
