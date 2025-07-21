@@ -75,11 +75,13 @@ export default function Sidebar({
 	setActiveCategory,
 	activeCategory,
 	categoryNames,
+	setSearchInput,
 }: {
 	tasks: TaskItem[];
 	setActiveCategory: Function;
 	activeCategory: string[];
 	categoryNames: string[];
+	setSearchInput: React.Dispatch<React.SetStateAction<string>>;
 }) {
 	const [essa, setEssa] = useState('a');
 	return (
@@ -90,6 +92,9 @@ export default function Sidebar({
 						type='text'
 						placeholder='Szukaj'
 						className='block bg-search-background placeholder-white/60 text-white pr-2 py-4 pl-10 text-[16px] rounded-xl w-[216px]'
+						onChange={e => {
+							setSearchInput(e.target.value);
+						}}
 					/>
 					<img
 						src={SearchBtn}

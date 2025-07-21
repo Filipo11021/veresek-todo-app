@@ -21,11 +21,11 @@ function DrawDropdownOptions({
 	setIsClicked: Dispatch<SetStateAction<boolean>>;
 }) {
 	function deleteFunction() {
-		setTasks((tasks) => tasks.filter((task) => task.id !== taskId));
+		setTasks(tasks => tasks.filter(task => task.id !== taskId));
 	}
 
 	return (
-		<div className='p-4'>
+		<div className='p-2'>
 			<div
 				key={0}
 				onClick={() => {
@@ -33,18 +33,22 @@ function DrawDropdownOptions({
 						setIsClicked(true);
 					}
 				}}
-			>
-				<img src={editIcon} />
-				<p>Edytuj</p>
+				className='m-1 flex content-center items-center bg-dropdown-background-subelement p-2 rounded-xl'>
+				<div>
+					<img src={editIcon} />
+				</div>
+				<p className='ml-2'>Edytuj</p>
 			</div>
 			<div
 				key={1}
 				onClick={() => {
 					deleteFunction();
 				}}
-			>
-				<img src={deleteIcon} />
-				<p>Usuń</p>
+				className='m-1 flex content-center items-center bg-dropdown-background-subelement p-2 rounded-xl'>
+				<div>
+					<img src={deleteIcon} />
+				</div>
+				<p className='ml-2'>Usuń</p>
 			</div>
 		</div>
 	);
@@ -55,7 +59,7 @@ function editTaskValues(
 	activeTab: string,
 	category: string,
 	name: string,
-	desc: string,
+	desc: string
 ) {
 	const editedTask = {
 		id: taskId,
@@ -66,8 +70,8 @@ function editTaskValues(
 		importance: activeTab,
 	};
 
-	setTasks((tasks) =>
-		tasks.map((task) => (task.id === taskId ? editedTask : task)),
+	setTasks(tasks =>
+		tasks.map(task => (task.id === taskId ? editedTask : task))
 	);
 }
 
@@ -92,8 +96,7 @@ function EditFunction({
 				isClicked
 					? 'absolute top-0 left-0 w-[100vw] h-[100vh] bg-black/50 backdrop-blur-sm z-10 cursor-default'
 					: 'hidden absolute top-0 left-0 w-[100vw] h-[100vh] bg-black/50 backdrop-blur-sm z-10'
-			}
-		>
+			}>
 			<div className='absolute top-[50%] left-[50%] bg-creating-task-background -translate-1/2 text-white py-8 px-6 rounded-2xl border-task-border border min-w-[450px]'>
 				<h2 className='text-2xl mb-10 font-semibold'>Dodaj nowe zadanie</h2>
 				<img
@@ -112,7 +115,7 @@ function EditFunction({
 						type='text'
 						placeholder='Edytuj nazwę zadania'
 						className='w-full py-4 px-6 rounded-xl bg-task-background'
-						onChange={(e) => {
+						onChange={e => {
 							setName(e.target.value);
 						}}
 					/>
@@ -123,7 +126,7 @@ function EditFunction({
 						type='text'
 						placeholder='Edytuj nazwę kategorii'
 						className='w-full py-4 px-6 rounded-xl bg-task-background'
-						onChange={(e) => {
+						onChange={e => {
 							setCategory(e.target.value);
 						}}
 					/>
@@ -133,7 +136,7 @@ function EditFunction({
 					<textarea
 						placeholder='Edytuj opis zadania'
 						className='px-6 py-4 w-full bg-task-background rounded-xl h-[104px] break-all resize-none'
-						onChange={(e) => {
+						onChange={e => {
 							setDesc(e.target.value);
 						}}
 					/>
@@ -169,8 +172,7 @@ function EditFunction({
 						className='bg-task-background py-4 px-6 rounded-xl mr-[12px] cursor-pointer'
 						onClick={() => {
 							setIsClicked(false);
-						}}
-					>
+						}}>
 						Anuluj
 					</button>
 					<button
@@ -178,8 +180,7 @@ function EditFunction({
 						onClick={() => {
 							editTaskValues(taskId, setTasks, activeTab, category, name, desc);
 							setIsClicked(false);
-						}}
-					>
+						}}>
 						<img src={tickIcon} className='w-[18px] h-[13px mr-2.5' />
 						Edytuj zadanie
 					</button>
@@ -200,8 +201,8 @@ function DropdownMenu({
 	setIsClicked: Dispatch<SetStateAction<boolean>>;
 }) {
 	return (
-		<div className='relative -bottom-4 z-1'>
-			<div className='absolute bg-dropdown-background p-1'>
+		<div className='relative -bottom-4 right-20 z-1'>
+			<div className='absolute bg-dropdown-background p-1 rounded-2xl w-40'>
 				<DrawDropdownOptions
 					taskId={taskId}
 					tasks={tasks}
@@ -231,7 +232,7 @@ export default function MoreOptions({
 				alt='more info'
 				className='border-task-category-border border rounded-xl py-3 px-[17px]'
 				onClick={() => {
-					setShowMore((toggle) => !toggle);
+					setShowMore(toggle => !toggle);
 				}}
 			/>
 			{showMore && (

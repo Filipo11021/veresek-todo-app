@@ -16,6 +16,7 @@
 	--color-task-category-border: #383838;
 	--color-creating-task-background: #191919;
 	--color-dropdown-background: #1e1e1e;
+	--color-dropdown-background-subelement: #282828;
 }
 @layer {
 	* {

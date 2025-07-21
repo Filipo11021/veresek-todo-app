@@ -63,16 +63,21 @@ function TaskList({
 	tasks,
 	setTasks,
 	activeCategory,
+	searchInput,
 }: {
 	tasks: TaskItem[];
 	setTasks: Dispatch<SetStateAction<TaskItem[]>>;
 	activeCategory: string[];
 	categoryNames: string[];
+	searchInput: string;
 }) {
 	return (
 		<div className='w-full'>
 			{tasks.map(task => {
-				if (activeCategory.includes(task.category)) {
+				if (
+					(activeCategory.includes(task.category) && searchInput == '') ||
+					task.name.includes(searchInput, 0)
+				) {
 					return (
 						<Task task={task} setTasks={setTasks} tasks={tasks} key={task.id} />
 					);
@@ -88,12 +93,14 @@ export default function Dashboard({
 	activeCategory,
 	setActiveCategories,
 	categoryNames,
+	searchInput,
 }: {
 	tasks: TaskItem[];
 	setTasks: Dispatch<SetStateAction<TaskItem[]>>;
 	activeCategory: string[];
 	setActiveCategories: Dispatch<React.SetStateAction<string[]>>;
 	categoryNames: string[];
+	searchInput: string;
 }) {
 	return (
 		<main className='bg-main-section p-8'>
@@ -109,6 +116,7 @@ export default function Dashboard({
 				setTasks={setTasks}
 				activeCategory={activeCategory}
 				categoryNames={categoryNames}
+				searchInput={searchInput}
 			/>
 		</main>
 	);
