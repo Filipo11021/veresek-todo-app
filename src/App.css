@@ -1,34 +1,34 @@
 @import 'tailwindcss';
 
 @theme {
-	--site-background: hsl(0, 0%, 10%);
-	--color-search-background: hsl(0, 0%, 14%);
-	--color-checked-checkbox: hsl(233, 67%, 47%);
-	--color-button-border: hsl(0, 0%, 25%);
-	--color-start-gradient: #141731;
-	--color-end-gradient: #2b2c37;
-	--color-main-section: #151515;
-	--color-profile-icon-background: #283ac9;
-	--color-secondary-text: #dbdbdb;
-	--color-task-background: #232323;
-	--color-completed-task-background: #1a1a1a;
-	--color-task-border: #353535;
-	--color-task-category-border: #383838;
-	--color-creating-task-background: #191919;
-	--color-dropdown-background: #1e1e1e;
-	--color-dropdown-background-subelement: #282828;
+    --site-background: hsl(0, 0%, 10%);
+    --color-search-background: hsl(0, 0%, 14%);
+    --color-checked-checkbox: hsl(233, 67%, 47%);
+    --color-button-border: hsl(0, 0%, 25%);
+    --color-start-gradient: #141731;
+    --color-end-gradient: #2b2c37;
+    --color-main-section: #151515;
+    --color-profile-icon-background: #283ac9;
+    --color-secondary-text: #dbdbdb;
+    --color-task-background: #232323;
+    --color-completed-task-background: #1a1a1a;
+    --color-task-border: #353535;
+    --color-task-category-border: #383838;
+    --color-creating-task-background: #191919;
+    --color-dropdown-background: #1e1e1e;
+    --color-dropdown-background-subelement: #282828;
 }
 @layer {
-	* {
-		box-sizing: border-box;
-	}
-	body {
-		font-family: 'Inter';
-		background-color: var(--site-background);
-	}
-	main {
-		min-height: 900px;
-		height: 100vh;
-		width: 100vw;
-	}
+    * {
+        box-sizing: border-box;
+    }
+    body {
+        font-family: 'Inter';
+        background-color: var(--site-background);
+    }
+    main {
+        min-height: 900px;
+        height: 100vh;
+        width: 100vw;
+    }
 }
